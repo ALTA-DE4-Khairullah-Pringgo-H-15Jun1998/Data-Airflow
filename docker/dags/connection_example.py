@@ -1,17 +1,17 @@
 from airflow import DAG
 from datetime import datetime
-from airflow.providers.http.operators.http import SimpleHttpOperator
+from airflow.providers.http.operators.http import HttpOperator
 from airflow.operators.python import PythonOperator
 import pendulum
 
 with DAG(
-    dag_id = 'alterra_connection_example',
+    dag_id = 'alterra_connection_khairullah',
     schedule=None,
     start_date=datetime(2022, 10, 21),
     catchup=False
 ) as dag:
     
-    get_statistic = SimpleHttpOperator(
+    get_statistic = HttpOperator(
         task_id="get_statistic",
         endpoint="/statistic",
         method="GET",
@@ -20,7 +20,7 @@ with DAG(
         dag=dag
     )
 
-    identify_name = SimpleHttpOperator(
+    identify_name = HttpOperator(
         task_id="post_name",
         endpoint="/gender/by-first-name-multiple",
         method="POST",
